@@ -16,3 +16,10 @@ NEWSPIDER_MODULE = 'zappos.spiders'
 USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/600.6.3 (KHTML, like Gecko) Version/8.0.6 Safari/600.6.3'
 
 CONCURRENT_REQUESTS_PER_DOMAIN = 2
+
+ITEM_PIPELINES = ['zappos.pipelines.MongoDBPipeline']
+
+MONGODB_SERVER = "localhost"
+MONGODB_PORT = 27017
+MONGODB_DB = "zappos"
+MONGODB_COLLECTION = "products"
