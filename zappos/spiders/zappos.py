@@ -37,7 +37,7 @@ class ZapposSpider(CrawlSpider):
     def parse_product(self, response):
         product = Product()
         product['name'] = response.css('span.ProductName::text').extract()[0]
-        product['price'] = response.css('div#priceSlot span.price::text').extract()[0]
+        product['price'] = self.get_price(response)
         product['sku'] = response.css('#sku span[itemprop=sku]::text').extract()[0]
         product['url'] = response.url
         product['brand'] = response.css('h1.banner meta[itemtype=brand]::attr(content)').extract()[0]
@@ -92,6 +92,11 @@ class ZapposSpider(CrawlSpider):
 
         return img_urls
 
+    def get_price(self, response):
+        price_str = response.css('div#priceSlot span.price::text').extract()
+        if price_str:
+            return float(price_str[0][1:].replace(',', ''))
+        return ''
 
     def filter_links(self, links, current_link):
         return filter(lambda link: link if link not in current_link and link != '#' else None, links)
